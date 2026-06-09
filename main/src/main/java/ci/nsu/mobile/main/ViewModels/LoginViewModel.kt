@@ -2,9 +2,16 @@ package ci.nsu.mobile.main.ViewModels
 
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import ci.nsu.mobile.main.Repository.AuthRepository
-import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharedFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asSharedFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 class LoginViewModel(
@@ -50,6 +57,16 @@ class LoginViewModel(
                 _errorMessage.value = result.exceptionOrNull()?.message ?: "Ошибка входа"
             }
             _isLoading.value = false
+        }
+    }
+
+    companion object {
+        fun provideFactory(repository: AuthRepository): ViewModelProvider.Factory = object : ViewModelProvider.Factory {
+            @Suppress("UNCHECKED_CAST")
+            override fun <T : ViewModel> create(modelClass: Class<T>): T {
+                val savedStateHandle = SavedStateHandle()
+                return LoginViewModel(savedStateHandle, repository) as T
+            }
         }
     }
 }

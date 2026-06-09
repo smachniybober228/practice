@@ -11,12 +11,12 @@ interface CalculationDao {
     @Insert
     suspend fun insert(calculation: CalculationEntity)
 
-    @Query("SELECT * FROM calculations ORDER BY timestamp DESC")
-    fun getAllCalculations(): Flow<List<CalculationEntity>>
+    @Query("SELECT * FROM calculations WHERE userId = :userId ORDER BY timestamp DESC")
+    fun getCalculationsForUser(userId: Long): Flow<List<CalculationEntity>>
 
-    @Query("DELETE FROM calculations WHERE id = :id")
-    suspend fun deleteById(id: Long)
+    @Query("DELETE FROM calculations WHERE userId = :userId AND id = :id")
+    suspend fun deleteByIdForUser(userId: Long, id: Long)
 
-    @Query("SELECT * FROM calculations WHERE id = :id")
-    fun getCalculationById(id: Long): Flow<CalculationEntity?>
+    @Query("SELECT * FROM calculations WHERE userId = :userId AND id = :id")
+    fun getCalculationByIdForUser(userId: Long, id: Long): Flow<CalculationEntity?>
 }

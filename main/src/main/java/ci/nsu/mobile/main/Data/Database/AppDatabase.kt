@@ -7,7 +7,7 @@ import androidx.room.RoomDatabase
 import ci.nsu.mobile.main.Data.DAO.CalculationDao
 import ci.nsu.mobile.main.Data.Entity.CalculationEntity
 
-@Database(entities = [CalculationEntity::class], version = 1, exportSchema = false)
+@Database(entities = [CalculationEntity::class], version = 2, exportSchema = false)
 abstract class AppDatabase : RoomDatabase() {
     abstract fun calculationDao(): CalculationDao
 
